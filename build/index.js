@@ -6,7 +6,6 @@ var reader = new CsvFileReader_1.CsvFileReader('football.csv');
 reader.read();
 var date = reader.data[0][0];
 console.log(date);
-//Test conflict from develop
 var manUnitedWins = 0;
 for (var _i = 0, _a = reader.data; _i < _a.length; _i++) {
     var match = _a[_i];
