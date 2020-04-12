@@ -1,7 +1,7 @@
+import { MatchData } from './MatchData';
 import { MatchResult } from './MatchResult';
 import { dateStringToDate } from './utils';
-
-type MatchData = [Date, string, string, number, number, MatchResult, string]; //Tuple data structure
+import { CsvFileReader } from './CsvFileReader';
 
 interface DataReader {
   read(): void;
@@ -9,8 +9,14 @@ interface DataReader {
 }
 
 export class GenericReader {
+  static fromCsv(filename: string): GenericReader {
+    return new GenericReader(new CsvFileReader(filename));
+  }
+
   matches: MatchData[] = [];
-  constructor(public reader: DataReader) {}
+  constructor(public reader: DataReader) {
+    reader.read();
+  }
 
   load(): void {
     this.matches = this.reader.data.map(this.mapRow);

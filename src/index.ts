@@ -1,21 +1,12 @@
 import { GenericReader } from './MatchReader';
 import { CsvFileReader } from './CsvFileReader';
-import { MatchResult } from './MatchResult';
+import { ConsoleReports } from './ReportTargets/ConsoleReports';
+import { HtmlReports } from './ReportTargets/HtmlReport';
+import { WinsAnalysis } from './Analyzers/WinaAnalysis';
+import { Summary } from './Summary';
 
-const csvFileReader = new CsvFileReader('football.csv');
-csvFileReader.read();
+const matchReader = GenericReader.fromCsv('football.csv');
+const summary = Summary.winsAnalysisWithHtmlReport('Man United');
 
-const matchReader = new GenericReader(csvFileReader);
 matchReader.load();
-
-let manUnitedWins = 0;
-
-for (let match of matchReader.matches) {
-  if (match[1] === 'Man United' && match[5] === MatchResult.HomeWin) {
-    manUnitedWins++;
-  } else if (match[2] === 'Man United' && match[5] === MatchResult.AwayWin) {
-    manUnitedWins++;
-  }
-}
-
-console.log(manUnitedWins);
+summary.buildAndPrintReport(matchReader.matches);

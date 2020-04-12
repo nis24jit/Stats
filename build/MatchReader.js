@@ -1,11 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = require("./utils");
+var CsvFileReader_1 = require("./CsvFileReader");
 var GenericReader = /** @class */ (function () {
     function GenericReader(reader) {
         this.reader = reader;
         this.matches = [];
+        reader.read();
     }
+    GenericReader.fromCsv = function (filename) {
+        return new GenericReader(new CsvFileReader_1.CsvFileReader(filename));
+    };
     GenericReader.prototype.load = function () {
         this.matches = this.reader.data.map(this.mapRow);
     };
